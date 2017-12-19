@@ -10,4 +10,4 @@ ADD . /app
 # Port 80 should be accessible outside of the container
 EXPOSE 80
 
-CMD ["echo", "hello"]
+CMD ["java", "-version"]
