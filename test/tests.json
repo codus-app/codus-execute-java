@@ -1,0 +1,16 @@
+{
+  "test_cases": [
+    {
+      "parameters": [1],
+      "return": 2
+    },
+    {
+      "parameters": [5],
+      "return": 6
+    },
+    {
+      "parameters": [3],
+      "return": 4
+    }
+  ]
+}
