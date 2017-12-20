@@ -16,10 +16,9 @@ class TestSuite {
   public TestCase[] cases;
   public TestSuite(String json) {
     JsonArray jsonCases = Json.parse(json).asObject().get("testCases").asArray();
-    int numTests = jsonCases.values().size();
-    this.cases = new TestCase[numTests];
+    this.cases = new TestCase[jsonCases.size()];
 
-    for (int i = 0; i < numTests; i++) {
+    for (int i = 0; i < this.cases.length; i++) {
       this.cases[i] = new TestCase(jsonCases.get(i).asObject());
     }
   }
@@ -49,6 +48,9 @@ class TestCase {
     return "TestCase " + this.parameters.toString() + " -> " + this.result.toString();
   }
 }
+
+
+
 
 public class Tester {
   // Returns a String with the contents of a file
