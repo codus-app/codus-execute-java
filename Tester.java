@@ -5,7 +5,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.io.IOException;
 // JSON
-import com.google.gson.Gson;
+import com.eclipsesource.json.*;
 
 class TestCase {
   public Object[] parameters;
@@ -29,13 +29,13 @@ class TestCase {
 
 public class Tester {
   // Returns a String with the contents of a file
-  static String readFile (String path, Charset encoding) throws IOException {
+  static String readFile(String path, Charset encoding) throws IOException {
     byte[] bytes = Files.readAllBytes(Paths.get(path));
     return new String(bytes, encoding);
   }
 
   // Default encoding of UTF-8
-  static String readFile (String path) throws IOException {
+  static String readFile(String path) throws IOException {
     return Tester.readFile(path, StandardCharsets.UTF_8);
   }
 
@@ -49,7 +49,5 @@ public class Tester {
     TestCase t1 = new TestCase();
     t1.parameters = new Object[] {1, "hello", 3, "goodbye"};
     t1.result = "wow";
-    Gson gson = new Gson();
-    System.out.println(gson.toJson(t1));
   }
 }
