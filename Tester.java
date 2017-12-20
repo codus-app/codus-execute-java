@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 
 class TestCase {
   public Object[] parameters;
-  public Object returnVal;
+  public Object result;
 
   public String toString() {
     // Beginning
@@ -21,7 +21,7 @@ class TestCase {
     // Cut out last ", "
     out = out.substring(0, out.length() - 2);
     // Add return value
-    out += "]\nreturn: " + this.returnVal.toString();
+    out += "]\nresult: " + this.result.toString();
 
     return out;
   }
