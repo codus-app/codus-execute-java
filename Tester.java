@@ -4,6 +4,9 @@ import java.nio.file.Paths;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.io.IOException;
+// JSON
+import com.google.gson.Gson;
+
 
 public class Tester {
   // Returns a String with the contents of a file
