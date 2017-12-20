@@ -7,6 +7,25 @@ import java.io.IOException;
 // JSON
 import com.google.gson.Gson;
 
+class TestCase {
+  public Object[] parameters;
+  public Object returnVal;
+
+  public String toString() {
+    // Beginning
+    String out = "parameters: [";
+    // Add all parameters, each followed by ", "
+    for (Object o : this.parameters) {
+      out += o.toString() + ", ";
+    }
+    // Cut out last ", "
+    out = out.substring(0, out.length() - 2);
+    // Add return value
+    out += "]\nreturn: " + this.returnVal.toString();
+
+    return out;
+  }
+}
 
 public class Tester {
   // Returns a String with the contents of a file
