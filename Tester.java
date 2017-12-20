@@ -34,10 +34,15 @@ public class Tester {
     return new String(bytes, encoding);
   }
 
+  // Default encoding of UTF-8
+  static String readFile (String path) throws IOException {
+    return Tester.readFile(path, StandardCharsets.UTF_8);
+  }
+
   public static void main(String[] args) throws IOException {
     System.out.println("tests.json --------------------------------------------------------------\n");
     System.out.println(
-      Tester.readFile("./test/tests.json", StandardCharsets.UTF_8)
+      Tester.readFile("./test/tests.json")
     );
     System.out.println("-------------------------------------------------------------------------");
 
