@@ -23,6 +23,15 @@ class TestSuite {
       this.cases[i] = new TestCase(jsonCases.get(i).asObject());
     }
   }
+
+  public String toString() {
+    String out = "["; // Beginning
+    for (TestCase tc : this.cases) out += tc.toString() + ", "; // Add all test cases, each followed by ", "
+    out = out.substring(0, out.length() - 2); // Cut out last ", "
+    out += "]"; // Add closing bracket
+
+    return out;
+  }
 }
 
 
@@ -34,6 +43,10 @@ class TestCase {
   public TestCase(JsonObject jsonCase) {
     this.parameters = jsonCase.get("parameters").asArray();
     this.result = jsonCase.get("result");
+  }
+
+  public String toString() {
+    return "TestCase " + this.parameters.toString() + " -> " + this.result.toString();
   }
 }
 
