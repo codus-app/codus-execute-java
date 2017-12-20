@@ -1,4 +1,7 @@
 {
+  "parameterTypes": ["Integer"],
+  "resultType": "Integer",
+
   "testCases": [
     {
       "parameters": [1],
