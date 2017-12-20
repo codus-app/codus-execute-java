@@ -40,5 +40,11 @@ public class Tester {
       Tester.readFile("./test/tests.json", StandardCharsets.UTF_8)
     );
     System.out.println("-------------------------------------------------------------------------");
+
+    TestCase t1 = new TestCase();
+    t1.parameters = new Object[] {1, "hello", 3, "goodbye"};
+    t1.result = "wow";
+    Gson gson = new Gson();
+    System.out.println(gson.toJson(t1));
   }
 }
