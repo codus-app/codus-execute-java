@@ -7,25 +7,6 @@ import java.io.IOException;
 // JSON
 import com.eclipsesource.json.*;
 
-class TestCase {
-  public Object[] parameters;
-  public Object result;
-
-  public String toString() {
-    // Beginning
-    String out = "parameters: [";
-    // Add all parameters, each followed by ", "
-    for (Object o : this.parameters) {
-      out += o.toString() + ", ";
-    }
-    // Cut out last ", "
-    out = out.substring(0, out.length() - 2);
-    // Add return value
-    out += "]\nresult: " + this.result.toString();
-
-    return out;
-  }
-}
 
 public class Tester {
   // Returns a String with the contents of a file
@@ -45,9 +26,5 @@ public class Tester {
       Tester.readFile("./test/tests.json")
     );
     System.out.println("-------------------------------------------------------------------------");
-
-    TestCase t1 = new TestCase();
-    t1.parameters = new Object[] {1, "hello", 3, "goodbye"};
-    t1.result = "wow";
   }
 }
