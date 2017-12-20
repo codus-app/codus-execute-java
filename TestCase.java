@@ -5,10 +5,12 @@ import com.eclipsesource.json.JsonValue;
 
 // Represents a single test case that can pass or fail
 class TestCase {
+  TestSuite suite;
   public JsonArray parameters;
   public JsonValue result;
 
-  public TestCase(JsonObject jsonCase) {
+  public TestCase(JsonObject jsonCase, TestSuite suite) {
+    this.suite = suite;
     this.parameters = jsonCase.get("parameters").asArray();
     this.result = jsonCase.get("result");
   }

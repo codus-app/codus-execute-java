@@ -28,7 +28,7 @@ class TestSuite {
     JsonArray jsonCases = fullJson.get("testCases").asArray();
     this.cases = new TestCase[jsonCases.size()];
     for (int i = 0; i < this.cases.length; i++) {
-      this.cases[i] = new TestCase(jsonCases.get(i).asObject());
+      this.cases[i] = new TestCase(jsonCases.get(i).asObject(), this);
     }
   }
 
