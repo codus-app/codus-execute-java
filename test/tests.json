@@ -1,5 +1,5 @@
 {
-  "test_cases": [
+  "testCases": [
     {
       "parameters": [1],
       "result": 2

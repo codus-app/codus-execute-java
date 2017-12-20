@@ -5,8 +5,37 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.io.IOException;
 // JSON
-import com.eclipsesource.json.*;
+import com.eclipsesource.json.Json;
+import com.eclipsesource.json.JsonObject;
+import com.eclipsesource.json.JsonArray;
+import com.eclipsesource.json.JsonValue;
 
+
+// Represents a set of multiple test cases
+class TestSuite {
+  public TestCase[] cases;
+  public TestSuite(String json) {
+    JsonArray jsonCases = Json.parse(json).asObject().get("testCases").asArray();
+    int numTests = jsonCases.values().size();
+    this.cases = new TestCase[numTests];
+
+    for (int i = 0; i < numTests; i++) {
+      this.cases[i] = new TestCase(jsonCases.get(i).asObject());
+    }
+  }
+}
+
+
+// Represents a single test case that can pass or fail
+class TestCase {
+  public JsonArray parameters;
+  public JsonValue result;
+
+  public TestCase(JsonObject jsonCase) {
+    this.parameters = jsonCase.get("parameters").asArray();
+    this.result = jsonCase.get("result");
+  }
+}
 
 public class Tester {
   // Returns a String with the contents of a file
@@ -21,10 +50,11 @@ public class Tester {
   }
 
   public static void main(String[] args) throws IOException {
+    String json = Tester.readFile("./test/tests.json");
     System.out.println("tests.json --------------------------------------------------------------\n");
-    System.out.println(
-      Tester.readFile("./test/tests.json")
-    );
+    System.out.println(json);
     System.out.println("-------------------------------------------------------------------------");
+    TestSuite suite1 = new TestSuite(json);
+    System.out.println(suite1);
   }
 }
