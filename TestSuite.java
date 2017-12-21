@@ -2,6 +2,8 @@ import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonArray;
 
+import java.lang.reflect.InvocationTargetException;
+
 
 // Represents a set of multiple test cases
 // Contains all the information derivable from a tests.json file
@@ -32,6 +34,15 @@ class TestSuite {
     }
   }
 
+  public String toString() {
+    String out = "["; // Beginning
+    for (TestCase tc : this.cases) out += tc.toString() + ", "; // Add all test cases, each followed by ", "
+    out = out.substring(0, out.length() - 2); // Cut out last ", "
+    out += "]"; // Add closing bracket
+
+    return out;
+  }
+
   // Get a Class given the string that represents it
   public static Class<?> getJavaType(String str) {
     switch (str) {
@@ -55,12 +66,14 @@ class TestSuite {
     return null;
   }
 
-  public String toString() {
-    String out = "["; // Beginning
-    for (TestCase tc : this.cases) out += tc.toString() + ", "; // Add all test cases, each followed by ", "
-    out = out.substring(0, out.length() - 2); // Cut out last ", "
-    out += "]"; // Add closing bracket
+  // Run all test cases and return a boolean[] containing the result of each (pass/fail)
+  public boolean[] run() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    boolean[] results = new boolean[this.cases.length];
 
-    return out;
+    for (int i = 0; i < this.cases.length; i++) {
+      results[i] = this.cases[i].run();
+    }
+
+    return results;
   }
 }
