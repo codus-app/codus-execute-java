@@ -50,7 +50,7 @@ class TestCase {
   public boolean run() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
     // Get the run method
     Class<Solution> sclass = Solution.class;
-    Method runMethod = sclass.getMethod("run", this.suite.parameterTypes);
+    Method runMethod = sclass.getMethod("main", this.suite.parameterTypes);
     // Create an instance of Solution class being tested
     Solution instance = new Solution();
     // parameters to be passed as plain Java objects
