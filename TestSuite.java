@@ -18,11 +18,11 @@ class TestSuite {
     JsonArray jsonParameterTypes = fullJson.get("parameterTypes").asArray();
     this.parameterTypes = new Class<?>[jsonParameterTypes.size()];
     for (int i = 0; i < this.parameterTypes.length; i++) {
-      this.parameterTypes[i] = TestSuite.javaType(jsonParameterTypes.get(i).asString());
+      this.parameterTypes[i] = TestSuite.getJavaType(jsonParameterTypes.get(i).asString());
     }
 
     // Record resultType
-    this.resultType = TestSuite.javaType(fullJson.get("resultType").asString());
+    this.resultType = TestSuite.getJavaType(fullJson.get("resultType").asString());
 
     // Populate this.cases
     JsonArray jsonCases = fullJson.get("testCases").asArray();
@@ -33,7 +33,7 @@ class TestSuite {
   }
 
   // Get a Class given the string that represents it
-  static Class<?> javaType(String str) {
+  public static Class<?> getJavaType(String str) {
     switch (str) {
       // Basics
       case "Integer": return Integer.TYPE;
