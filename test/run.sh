@@ -10,3 +10,6 @@ docker cp $(dirname $0)/Solution.java $id:/app/Solution.java
 
 # Run
 docker start -a $id
+
+# Copy log file
+docker cp $id:/app/log.txt log.txt
