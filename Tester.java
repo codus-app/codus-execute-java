@@ -5,6 +5,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.io.IOException;
 
+import java.util.Arrays;
+import java.lang.reflect.InvocationTargetException;
 
 public class Tester {
   // Returns a String with the contents of a file
@@ -18,12 +20,10 @@ public class Tester {
     return Tester.readFile(path, StandardCharsets.UTF_8);
   }
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
     String json = Tester.readFile("./tests.json");
-    System.out.println("tests.json --------------------------------------------------------------\n");
-    System.out.println(json);
-    System.out.println("-------------------------------------------------------------------------");
     TestSuite suite1 = new TestSuite(json);
     System.out.println(suite1);
+    System.out.println(Arrays.toString(suite1.run()));
   }
 }
