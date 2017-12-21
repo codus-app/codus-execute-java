@@ -23,7 +23,6 @@ public class Tester {
   public static void main(String[] args) throws IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
     String json = Tester.readFile("./tests.json");
     TestSuite suite1 = new TestSuite(json);
-    System.out.println(suite1);
     System.out.println(Arrays.toString(suite1.run()));
   }
 }
