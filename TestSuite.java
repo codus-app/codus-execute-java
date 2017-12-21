@@ -20,11 +20,11 @@ class TestSuite {
     JsonArray jsonParameterTypes = fullJson.get("parameterTypes").asArray();
     this.parameterTypes = new Class<?>[jsonParameterTypes.size()];
     for (int i = 0; i < this.parameterTypes.length; i++) {
-      this.parameterTypes[i] = TestSuite.getJavaType(jsonParameterTypes.get(i).asString());
+      this.parameterTypes[i] = JsonInterpret.getJavaType(jsonParameterTypes.get(i).asString());
     }
 
     // Record resultType
-    this.resultType = TestSuite.getJavaType(fullJson.get("resultType").asString());
+    this.resultType = JsonInterpret.getJavaType(fullJson.get("resultType").asString());
 
     // Populate this.cases
     JsonArray jsonCases = fullJson.get("testCases").asArray();
@@ -41,29 +41,6 @@ class TestSuite {
     out += "]"; // Add closing bracket
 
     return out;
-  }
-
-  // Get a Class given the string that represents it
-  public static Class<?> getJavaType(String str) {
-    switch (str) {
-      // Basics
-      case "Integer": return Integer.TYPE;
-      case "int": return Integer.TYPE;
-      case "Double": return Double.TYPE;
-      case "double": return Double.TYPE;
-      case "String": return String.class;
-      case "Boolean": return Boolean.TYPE;
-      case "boolean": return Boolean.TYPE;
-      // Array forms
-      case "Integer[]": return Integer[].class;
-      case "int[]": return int[].class;
-      case "Double[]": return Double[].class;
-      case "double[]": return double[].class;
-      case "String[]": return String[].class;
-      case "Boolean[]": return Boolean[].class;
-      case "boolean[]": return boolean[].class;
-    }
-    return null;
   }
 
   // Run all test cases and return a boolean[] containing the result of each (pass/fail)
