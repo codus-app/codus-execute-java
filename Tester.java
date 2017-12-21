@@ -19,7 +19,7 @@ public class Tester {
   }
 
   public static void main(String[] args) throws IOException {
-    String json = Tester.readFile("./test/tests.json");
+    String json = Tester.readFile("./tests.json");
     System.out.println("tests.json --------------------------------------------------------------\n");
     System.out.println(json);
     System.out.println("-------------------------------------------------------------------------");
