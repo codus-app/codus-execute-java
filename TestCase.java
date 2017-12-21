@@ -57,7 +57,9 @@ class TestCase {
     Object[] params = (Object[]) TestCase.getJavaObject(this.parameters);
     // Call method
     Object result = runMethod.invoke(instance, params);
+    Object expected = TestCase.getJavaObject(this.expectedResult);
+
     // Compare method to
-    return result == TestCase.getJavaObject(this.expectedResult);
+    return result.equals(expected);
   }
 }
