@@ -2,6 +2,9 @@
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
+// Reflection
+import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
 
 
 // Represents a single test case that can pass or fail
@@ -41,5 +44,20 @@ class TestCase {
       return out;
     }
     return null;
+  }
+
+  // Perform this test and return either true or false to indicate success
+  public boolean run() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    // Get the run method
+    Class<Solution> sclass = Solution.class;
+    Method runMethod = sclass.getMethod("run", this.suite.parameterTypes);
+    // Create an instance of Solution class being tested
+    Solution instance = new Solution();
+    // parameters to be passed as plain Java objects
+    Object params = TestCase.getJavaObject(this.parameters);
+    // Call method
+    Object result = runMethod.invoke(instance, params);
+    // Compare method to
+    return result == TestCase.getJavaObject(this.expectedResult);
   }
 }
