@@ -7,15 +7,15 @@ import com.eclipsesource.json.JsonValue;
 class TestCase {
   TestSuite suite;
   public JsonArray parameters;
-  public JsonValue result;
+  public JsonValue expectedResult;
 
   public TestCase(JsonObject jsonCase, TestSuite suite) {
     this.suite = suite;
     this.parameters = jsonCase.get("parameters").asArray();
-    this.result = jsonCase.get("result");
+    this.expectedResult = jsonCase.get("result");
   }
 
   public String toString() {
-    return "TestCase " + this.parameters.toString() + " -> " + this.result.toString();
+    return "TestCase " + this.parameters.toString() + " -> " + this.expectedResult.toString();
   }
 }
