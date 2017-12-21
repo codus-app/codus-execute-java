@@ -54,7 +54,7 @@ class TestCase {
     // Create an instance of Solution class being tested
     Solution instance = new Solution();
     // parameters to be passed as plain Java objects
-    Object params = TestCase.getJavaObject(this.parameters);
+    Object[] params = (Object[]) TestCase.getJavaObject(this.parameters);
     // Call method
     Object result = runMethod.invoke(instance, params);
     // Compare method to
