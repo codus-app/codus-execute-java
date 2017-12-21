@@ -4,8 +4,9 @@ import java.nio.file.Paths;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.io.IOException;
+// JSON output
+import com.eclipsesource.json.Json;
 
-import java.util.Arrays;
 import java.lang.reflect.InvocationTargetException;
 
 public class Tester {
@@ -21,8 +22,13 @@ public class Tester {
   }
 
   public static void main(String[] args) throws IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    // Read file
     String json = Tester.readFile("./tests.json");
-    TestSuite suite1 = new TestSuite(json);
-    System.out.println(Arrays.toString(suite1.run()));
+    // Make TestSuite from file
+    TestSuite suite = new TestSuite(json);
+    // Run tests
+    boolean[] results = suite.run();
+    // Print as JSON to console
+    System.out.println(Json.array(results));
   }
 }
