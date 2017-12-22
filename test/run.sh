@@ -1,7 +1,7 @@
 #!/usr/local/bin/zsh
 
 # Make the container
-id=$(docker create codus-execute-java)
+id=$(docker create --rm codus-execute-java)
 
 # Copy the user's code into the container
 docker cp $(dirname $0)/tests.json $id:/app/tests.json
