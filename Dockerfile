@@ -11,8 +11,6 @@ ADD . /app
 EXPOSE 80
 
 CMD {                                                                                \
-      echo 'Compiling...'                                                         && \
       javac -classpath '.:lib/minimal-json/minimal-json-0.9.5-sources.jar' *.java && \
-      echo 'Running...'                                                           && \
       java -classpath '.:lib/minimal-json/minimal-json-0.9.5.jar' Tester;            \
     } > log.txt
