@@ -12,7 +12,7 @@ docker cp $(dirname $0)/Solution.java $id:/app/Solution.java
 docker start -a $id
 
 # Copy log file
-docker cp $id:/app/log.txt log.txt
+docker cp $id:/app/results.json results.json
 
 # Remove the container
 docker rm $id
