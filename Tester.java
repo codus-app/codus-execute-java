@@ -8,6 +8,7 @@ import java.io.IOException;
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonArray;
+import com.eclipsesource.json.WriterConfig;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -62,6 +63,6 @@ public class Tester {
 
     // Print as JSON to console
     // TODO: complete this to be functional for more types
-    System.out.println(Json.array(results));
+    System.out.println(Json.array(results).toString(WriterConfig.PRETTY_PRINT));
   }
 }
