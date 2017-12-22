@@ -26,11 +26,6 @@ public class JsonInterpret {
     return null;
   }
 
-  public static JsonValue toJson(Object value) {
-    // TODO
-    return Json.value(null);
-  }
-
   // Get a Class given the string that represents it
   public static Class<?> getJavaType(String str) {
     switch (str) {

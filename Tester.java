@@ -62,7 +62,6 @@ public class Tester {
     boolean[] results = suite.run();
 
     // Print as JSON to console
-    // TODO: complete this to be functional for more types
     System.out.println(Json.array(results).toString(WriterConfig.PRETTY_PRINT));
   }
 }
