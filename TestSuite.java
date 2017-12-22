@@ -1,7 +1,3 @@
-import com.eclipsesource.json.Json;
-import com.eclipsesource.json.JsonObject;
-import com.eclipsesource.json.JsonArray;
-
 import java.lang.reflect.InvocationTargetException;
 
 
@@ -12,25 +8,13 @@ class TestSuite {
   public Class<?>[] parameterTypes;
   public Class<?> resultType;
 
-  public TestSuite(String json) {
-    // Entire JSON object
-    JsonObject fullJson = Json.parse(json).asObject();
-
-    // Populate parameterTypes
-    JsonArray jsonParameterTypes = fullJson.get("parameterTypes").asArray();
-    this.parameterTypes = new Class<?>[jsonParameterTypes.size()];
-    for (int i = 0; i < this.parameterTypes.length; i++) {
-      this.parameterTypes[i] = JsonInterpret.getJavaType(jsonParameterTypes.get(i).asString());
-    }
-
-    // Record resultType
-    this.resultType = JsonInterpret.getJavaType(fullJson.get("resultType").asString());
-
-    // Populate this.cases
-    JsonArray jsonCases = fullJson.get("testCases").asArray();
-    this.cases = new TestCase[jsonCases.size()];
-    for (int i = 0; i < this.cases.length; i++) {
-      this.cases[i] = new TestCase(jsonCases.get(i).asObject(), this);
+  public TestSuite(TestCase[] testCases, Class<?>[] parameterTypes, Class<?> resultType) {
+    this.cases = testCases;
+    this.parameterTypes = parameterTypes;
+    this.resultType = resultType;
+    // Register this as the suite for each test case
+    for (TestCase c : this.cases) {
+      c.suite = this;
     }
   }
 
