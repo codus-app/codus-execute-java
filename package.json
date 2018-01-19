@@ -1,0 +1,16 @@
+{
+  "name": "codus-execute-java",
+  "version": "0.0.0",
+  "description": "codus-engine component for executing Java code",
+  "main": "app/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arkis/codus-execute-java.git"
+  },
+  "author": "Arkis",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/arkis/codus-execute-java/issues"
+  },
+  "homepage": "https://github.com/arkis/codus-execute-java#readme"
+}
