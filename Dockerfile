@@ -4,8 +4,8 @@ FROM openjdk:alpine
 # Do things in container at path /app
 WORKDIR /app
 
-# Copy files from this directory into /app in the container
-ADD . /app
+# Copy files that need to live in the container into /app in the container
+ADD ./app/container /app
 
 # Port 80 should be accessible outside of the container
 EXPOSE 80
