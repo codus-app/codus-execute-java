@@ -42,5 +42,7 @@ module.exports = async function main(problem, solution) {
   // Build image if not present
   preflight();
 
+  // Create container
+  const container = await docker.createContainer({ Image: 'codus-execute-java' });
 
 }
