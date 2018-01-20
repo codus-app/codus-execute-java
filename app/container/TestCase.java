@@ -2,6 +2,20 @@ import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
 
 
+// Contains info on a TestCase's result
+class TestResult {
+  public Object value;
+  public Object expected;
+  public boolean pass;
+
+  public TestResult(Object value, Object expected, boolean pass) {
+    this.value = value;
+    this.expected = expected;
+    this.pass = pass;
+  }
+}
+
+
 // Represents a single test case that can pass or fail
 class TestCase {
   TestSuite suite;
