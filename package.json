@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/arkis/codus-execute-java#readme",
   "dependencies": {
-    "dockerode": "^2.5.3"
+    "dockerode": "^2.5.3",
+    "tar-stream": "^1.5.5"
   }
 }
