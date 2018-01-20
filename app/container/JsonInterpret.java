@@ -49,4 +49,13 @@ public class JsonInterpret {
     return null;
   }
 
+  // Convert a very basic value to a JsonValue (no arrays)
+  public static JsonValue getJsonValue(Object value, Class<?> type) {
+    if (value.getClass().isArray()) throw new IllegalArgumentException("Value cannot be an array");
+    if (type == Integer.TYPE) return Json.value((int) value);
+    if (type == Double.TYPE) return Json.value((double) value);
+    if (type == String.class) return Json.value((String) value);
+    if (type == Boolean.TYPE) return Json.value((boolean) value);
+    return Json.value(null);
+  }
 }
