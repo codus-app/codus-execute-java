@@ -59,9 +59,19 @@ public class Tester {
     TestSuite suite = new TestSuite(testCases, parameterTypes, resultType);
 
     // Run tests
-    boolean[] results = suite.run();
+    TestResult[] results = suite.run();
+
+    // Serialize test results as Json
+    JsonArray out = Json.array();
+
+    for (TestResult r : results) out.add(
+      Json.object()
+        .add("value", JsonInterpret.getJsonValue(r.value, resultType))
+        .add("expected", JsonInterpret.getJsonValue(r.expected, resultType))
+        .add("pass", r.pass)
+    );
 
     // Print as JSON to console
-    System.out.println(Json.array(results).toString(WriterConfig.PRETTY_PRINT));
+    System.out.println(out.toString(WriterConfig.PRETTY_PRINT));
   }
 }

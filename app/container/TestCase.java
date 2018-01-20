@@ -32,7 +32,7 @@ class TestCase {
   }
 
   // Perform this test and return either true or false to indicate success
-  public boolean run() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+  public TestResult run() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
     // Get the run method
     Class<Solution> sclass = Solution.class;
     Method runMethod = sclass.getMethod("main", this.suite.parameterTypes);
@@ -40,6 +40,7 @@ class TestCase {
     Solution instance = new Solution();
     Object result = runMethod.invoke(instance, this.parameters);
     // Compare result and expected result
-    return result.equals(this.expectedResult);
+    boolean pass = result.equals(this.expectedResult);
+    return new TestResult(result, this.expectedResult, pass);
   }
 }
