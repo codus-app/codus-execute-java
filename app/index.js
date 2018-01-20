@@ -59,4 +59,6 @@ module.exports = async function main(problem, solution) {
 
   // Start container
   await container.start();
+  // Wait for execution to finish
+  await container.wait();
 }
