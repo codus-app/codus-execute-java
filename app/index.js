@@ -10,6 +10,7 @@ docker.listImages().then(images => {
   // Check for the presence of an image tagged codus-execute-java:latest
   if (!images.filter(i => i.RepoTags.includes('codus-execute-java:latest')).length) {
     // If none is present, build the image
+    // FIXME: waiting on https://github.com/apocas/dockerode/issues/432
     docker.buildImage({
       context: path.join(__dirname, '..'),
       src: ['Dockerfile'],
