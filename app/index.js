@@ -78,6 +78,9 @@ module.exports = async function main(problem, solution) {
     resultsTar.pipe(extract);
   }).then(b => b.toString('UTF-8')).then(JSON.parse);
 
+  // Remove container
+  await container.remove();
+
 
   return results;
 }
