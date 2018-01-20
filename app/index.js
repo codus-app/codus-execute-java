@@ -55,5 +55,8 @@ module.exports = async function main(problem, solution) {
   );
   files.finalize();
   // Copy it into the container
-  container.putArchive(files, { path: '/app'});
+  await container.putArchive(files, { path: '/app'});
+
+  // Start container
+  await container.start();
 }
