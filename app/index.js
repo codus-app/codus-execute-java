@@ -61,4 +61,23 @@ module.exports = async function main(problem, solution) {
   await container.start();
   // Wait for execution to finish
   await container.wait();
+
+  // Get the results of the tests.
+  // Get tar file of results.json file
+  const resultsTar = await container.getArchive({ path: '/app/results.json' });
+  // Pull file out of tar archive
+  const results = await new Promise((resolve) => {
+    const extract = tar.extract();
+    extract.on('entry', (header, stream, next) => {
+      // Build Buffer from stream chunks
+      const chunks = [];
+      stream.on('data', chunk => chunks.push(chunk));
+      stream.on('end', () => resolve(Buffer.concat(chunks))); // Resolve after first entry because there's only one
+    });
+    // Send resultsTar to the extractor
+    resultsTar.pipe(extract);
+  }).then(b => b.toString('UTF-8')).then(JSON.parse);
+
+
+  return results;
 }
