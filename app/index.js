@@ -6,7 +6,7 @@ const Docker = require('dockerode');
 const docker = new Docker();
 
 // Make sure that the image is built
-docker.listImages().then(images => {
+module.exports.preflight = () => docker.listImages().then(images => {
   // Check for the presence of an image tagged codus-execute-java:latest
   if (!images.filter(i => i.RepoTags.includes('codus-execute-java:latest')).length) {
     // If none is present, build the image
