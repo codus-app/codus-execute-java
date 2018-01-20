@@ -34,8 +34,10 @@ function preflight() {
  *      in the Dockerfile from which the image was built.
  *   5. Copy the results out of the container
  *   6. Destroy the container
+ * @param {Object} problem - JSON representation of the problem
+ * @param {String} solution - the user's Java code
  */
-module.exports = async function main() {
+module.exports = async function main(problem, solution) {
   // Build image if not present
   preflight();
 
