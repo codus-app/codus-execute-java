@@ -35,7 +35,7 @@ function preflight() {
  *   5. Copy the results out of the container
  *   6. Destroy the container
  */
-module.exports = () => {
+module.exports = async function main() {
   // Build image if not present
   preflight();
 
