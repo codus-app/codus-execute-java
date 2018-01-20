@@ -1,4 +1,5 @@
 const path = require('path');
+const util = require('util');
 const tar = require('tar-stream');
 const Docker = require('dockerode');
 
@@ -47,14 +48,11 @@ module.exports = async function main(problem, solution) {
 
   // Create tar archive for copying files into container
   const files = tar.pack();
-  await new Promise( // Add problem info
-    (resolve) => files.entry({ name: 'tests.json' }, JSON.stringify(problem), resolve)
-  );
-  await new Promise( // Add user's code
-    (resolve) => files.entry({ name: 'Solution.java' }, solution, resolve)
-  );
+  files.add = util.promisify(files.entry);
+  await files.add({ name: 'tests.json' }, JSON.stringify(problem)); // Add problem info
+  await files.add({ name: 'Solution.java' }, solution);             // Add user's code
   files.finalize();
-  // Copy it into the container
+  // Copy into the container
   await container.putArchive(files, { path: '/app'});
 
   // Start container
