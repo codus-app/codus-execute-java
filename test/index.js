@@ -2,8 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const javaExec = require('..');
 
-const problem = JSON.parse(fs.readFileSync(path.join(__dirname, 'tests.json'), 'UTF-8'));
-const userCode = fs.readFileSync(path.join(__dirname, 'Solution.java'), 'UTF-8');
+const problem = JSON.parse(fs.readFileSync(path.join(__dirname, '1/tests.json'), 'UTF-8'));
+const userCode = fs.readFileSync(path.join(__dirname, '1/Solution.java'), 'UTF-8');
 
 console.log(
 
