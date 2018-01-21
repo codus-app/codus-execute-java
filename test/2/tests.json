@@ -8,8 +8,8 @@
       "result": "cat dog"
     },
     {
-      "parameters": ["BiCyClE", "Hi tHere"],
-      "result": "bicycle hi there"
+      "parameters": ["Wow,", "it works"],
+      "result": "wow, it works"
     }
   ]
 }
