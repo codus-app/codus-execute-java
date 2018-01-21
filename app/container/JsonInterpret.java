@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonValue;
 import com.eclipsesource.json.JsonArray;
@@ -49,7 +50,7 @@ public class JsonInterpret {
     return null;
   }
 
-  // Convert a very basic value to a JsonValue (no arrays)
+  // Convert a Java object to a jsonValue
   public static JsonValue getJsonValue(Object value, Class<?> type) {
     // Base case - value is easily convertible
     if (!type.isArray()) {
@@ -62,8 +63,9 @@ public class JsonInterpret {
     // Type is an array
     Class<?> containedType = type.getComponentType();
     JsonArray out = Json.array();
-    for (Object v : (Object[]) value)
-      out.add(getJsonValue(v, containedType)); // Recur
+    for (int i = 0; i < Array.getLength(value); i++) {
+      out.add(getJsonValue(Array.get(value, i), containedType)); // Recur
+    }
     return out;
   }
 }
