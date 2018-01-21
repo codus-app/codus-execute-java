@@ -51,20 +51,19 @@ public class JsonInterpret {
 
   // Convert a very basic value to a JsonValue (no arrays)
   public static JsonValue getJsonValue(Object value, Class<?> type) {
-    // Not an array
+    // Base case - value is easily convertible
     if (!type.isArray()) {
       if (type == Integer.TYPE) return Json.value((int) value);
       if (type == Double.TYPE) return Json.value((double) value);
       if (type == String.class) return Json.value((String) value);
       if (type == Boolean.TYPE) return Json.value((boolean) value);
-    // Type is an array
-    } else {
-      Class<?> containedType = type.getComponentType();
-      JsonArray out = Json.array();
-      for (Object v : (Object[]) value)
-        out.add(getJsonValue(v, containedType)); // Recur
-      return out;
+      else return Json.value(null);
     }
-    return Json.value(null);
+    // Type is an array
+    Class<?> containedType = type.getComponentType();
+    JsonArray out = Json.array();
+    for (Object v : (Object[]) value)
+      out.add(getJsonValue(v, containedType)); // Recur
+    return out;
   }
 }
