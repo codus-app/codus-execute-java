@@ -1,4 +1,5 @@
 import java.lang.reflect.Method;
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 
 
@@ -31,6 +32,17 @@ class TestCase {
     return "TestCase " + this.parameters.toString() + " -> " + this.expectedResult.toString();
   }
 
+  // Checks if two Objects (which must be arrays) are equal
+  public boolean arraysEqual(Object a, Object b) {
+    if (a.getClass().isArray() && b.getClass().isArray()) {
+      if (Array.getLength(a) != Array.getLength(b)) return false;
+      for (int i=0; i < Array.getLength(a); i++)
+        if (!Array.get(a, i).equals(Array.get(b, i))) return false;
+      return true;
+    }
+    return false;
+  }
+
   // Perform this test and return either true or false to indicate success
   public TestResult run() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
     // Get the run method
@@ -40,7 +52,10 @@ class TestCase {
     Solution instance = new Solution();
     Object result = runMethod.invoke(instance, this.parameters);
     // Compare result and expected result
-    boolean pass = result.equals(this.expectedResult);
+    boolean pass;
+    if (!result.getClass().isArray()) pass = result.equals(this.expectedResult); // Non-array equality check
+    else pass = arraysEqual(result, this.expectedResult); // Arrays require different equality check
+
     return new TestResult(result, this.expectedResult, pass);
   }
 }
