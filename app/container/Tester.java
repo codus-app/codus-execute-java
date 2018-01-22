@@ -9,10 +9,55 @@ import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.WriterConfig;
+import com.eclipsesource.json.ParseException;
 
 import java.lang.reflect.InvocationTargetException;
 
 public class Tester {
+  public static String jsonString;
+
+  public static Class<?>[] parameterTypes;
+  public static Class<?> resultType;
+  public static TestCase[] testCases;
+
+  public static TestSuite suite;
+
+  // Constructor reads all info and initializes a TestSuite
+  public static void init() throws IOException {
+    // Read + parse JSON from file
+    Tester.jsonString = Tester.readFile("./tests.json");
+    JsonObject fullJson = Json.parse(Tester.jsonString).asObject();
+
+    // Parse parameter types from JSON into an array of Classes
+    JsonArray jsonParameterTypes = fullJson.get("parameterTypes").asArray();
+    Object[] parameterTypeNames = (Object[]) JsonInterpret.toObject(jsonParameterTypes);
+    Tester.parameterTypes = new Class<?>[parameterTypeNames.length];
+    for (int i = 0; i < parameterTypes.length; i++) {
+      Tester.parameterTypes[i] = JsonInterpret.getJavaType((String) parameterTypeNames[i]);
+    }
+
+    // Extract expected result type from JSON to a Class
+    Tester.resultType = JsonInterpret.getJavaType(fullJson.get("resultType").asString());
+
+    // Build an array of TestCases
+    JsonArray jsonTestCases = fullJson.get("testCases").asArray(); // JSON representation
+    Tester.testCases = new TestCase[jsonTestCases.size()];     // Array to be filled
+    for (int i = 0; i < Tester.testCases.length; i++) {
+      // Get JSON representation of test case
+      JsonObject jsonTestCase = jsonTestCases.get(i).asObject();
+      // Extract parameters as array of Java objects
+      Object[] parameters = (Object[]) JsonInterpret.toObject(jsonTestCase.get("parameters").asArray());
+      // Extract expected result as Java object
+      Object expectedResult = JsonInterpret.toObject(jsonTestCase.get("result"));
+      // Create the instance of the TestCase class
+      Tester.testCases[i] = new TestCase(parameters, expectedResult);
+    }
+
+    // Initialize TestSuite
+    Tester.suite = new TestSuite(Tester.testCases, Tester.parameterTypes, Tester.resultType);
+  }
+
+
   // Returns a String with the contents of a file
   static String readFile(String path, Charset encoding) throws IOException {
     byte[] bytes = Files.readAllBytes(Paths.get(path));
@@ -36,57 +81,25 @@ public class Tester {
   }
 
 
-  // Initializes a TestSuite based on the information in a file, then runs it and prints results as JSON
+  // Calls suite.run() and reports the results, including handling errors
   public static void main(String[] args) throws IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-    // Read + parse JSON from file
-    String jsonString = Tester.readFile("./tests.json");
-    JsonObject fullJson = Json.parse(jsonString).asObject();
+    JsonObject out = Json.object();
 
-    // Parse parameter types from JSON into an array of Classes
-    JsonArray jsonParameterTypes = fullJson.get("parameterTypes").asArray();
-    Object[] parameterTypeNames = (Object[]) JsonInterpret.toObject(jsonParameterTypes);
-    Class<?>[] parameterTypes = new Class<?>[parameterTypeNames.length];
-    for (int i = 0; i < parameterTypes.length; i++) {
-      parameterTypes[i] = JsonInterpret.getJavaType((String) parameterTypeNames[i]);
-    }
-
-    // Extract expected result type from JSON to a Class
-    Class<?> resultType = JsonInterpret.getJavaType(fullJson.get("resultType").asString());
-
-    // Build an array of TestCases
-    JsonArray jsonTestCases = fullJson.get("testCases").asArray(); // JSON representation
-    TestCase[] testCases = new TestCase[jsonTestCases.size()];     // Array to be filled
-    for (int i = 0; i < testCases.length; i++) {
-      // Get JSON representation of test case
-      JsonObject jsonTestCase = jsonTestCases.get(i).asObject();
-      // Extract parameters as array of Java objects
-      Object[] parameters = (Object[]) JsonInterpret.toObject(jsonTestCase.get("parameters").asArray());
-      // Extract expected result as Java object
-      Object expectedResult = JsonInterpret.toObject(jsonTestCase.get("result"));
-      // Create the instance of the TestCase class
-      testCases[i] = new TestCase(parameters, expectedResult);
-    }
-
-    // Initialize TestSuite
-    TestSuite suite = new TestSuite(testCases, parameterTypes, resultType);
-
-    // Run tests
-    TestResult[] results = suite.run();
+    Tester.init();
+    TestResult[] results = Tester.suite.run();
 
     // Serialize test results as Json
-    JsonArray out = Json.array();
-
-    for (TestResult r : results) out.add(
+    JsonArray jsonResults = Json.array();
+    for (TestResult r : results) jsonResults.add(
       Json.object()
         .add("value", JsonInterpret.getJsonValue(r.value, resultType))
         .add("expected", JsonInterpret.getJsonValue(r.expected, resultType))
         .add("pass", r.pass)
     );
+    // Add to output
+    out.add("data", jsonResults);
 
     // Save to results.json
-    Tester.writeFile(
-      "./results.json",
-      Json.object().add("data", out).toString(WriterConfig.PRETTY_PRINT)
-    );
+    Tester.writeFile("./results.json", out.toString(WriterConfig.PRETTY_PRINT));
   }
 }
