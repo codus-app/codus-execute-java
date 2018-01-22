@@ -24,6 +24,18 @@ public class Tester {
     return Tester.readFile(path, StandardCharsets.UTF_8);
   }
 
+
+  // Writes a String to a file with a given name
+  static void writeFile(String path, String content, Charset encoding) throws IOException {
+    Files.write(Paths.get(path), content.getBytes(encoding));
+  }
+
+  // Default encoding of UTF-8
+  static void writeFile(String path, String content) throws IOException {
+    Tester.writeFile(path, content, StandardCharsets.UTF_8);
+  }
+
+
   // Initializes a TestSuite based on the information in a file, then runs it and prints results as JSON
   public static void main(String[] args) throws IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
     // Read + parse JSON from file
@@ -72,6 +84,6 @@ public class Tester {
     );
 
     // Print as JSON to console
-    System.out.println(out.toString(WriterConfig.PRETTY_PRINT));
+    Tester.writeFile("./results.json", out.toString(WriterConfig.PRETTY_PRINT));
   }
 }
