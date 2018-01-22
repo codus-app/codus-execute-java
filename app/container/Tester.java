@@ -107,7 +107,7 @@ public class Tester {
       out.add("error", e.getMessage());
     }
 
-    // Save to results.json
-    Tester.writeFile("./results.json", out.toString(WriterConfig.PRETTY_PRINT));
+    // Save to out.json
+    Tester.writeFile("./out.json", out.toString(WriterConfig.PRETTY_PRINT));
   }
 }

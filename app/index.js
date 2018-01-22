@@ -55,8 +55,8 @@ module.exports = async function main(problem, solution) {
   await container.wait();
 
   // Get the results of the tests.
-  // Get tar file of results.json file
-  const resultsTar = await container.getArchive({ path: '/app/results.json' });
+  // Get tar file of out.json file
+  const resultsTar = await container.getArchive({ path: '/app/out.json' });
   // Pull file out of tar archive
   const results = await new Promise((resolve) => {
     const extract = tar.extract();
