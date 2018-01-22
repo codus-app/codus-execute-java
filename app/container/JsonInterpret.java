@@ -24,7 +24,8 @@ public class JsonInterpret {
       for (int i = 0; i < arr.size(); i++) out[i] = JsonInterpret.toObject(arr.get(i));
       return out;
     }
-    return null;
+    // This should never happen
+    throw new IllegalArgumentException("JsonValue " + value.toString() + " is not convertible to a java object");
   }
 
   // Get a Class given the string that represents it
@@ -47,7 +48,7 @@ public class JsonInterpret {
       case "Boolean[]": return Boolean[].class;
       case "boolean[]": return boolean[].class;
     }
-    return null;
+    throw new IllegalArgumentException(str + " is not a supported type for conversion from JSON");
   }
 
   // Convert a Java object to a jsonValue
@@ -58,7 +59,7 @@ public class JsonInterpret {
       if (type == Double.TYPE) return Json.value((double) value);
       if (type == String.class) return Json.value((String) value);
       if (type == Boolean.TYPE) return Json.value((boolean) value);
-      else return Json.value(null);
+      else throw new IllegalArgumentException(type.getName() + " is not a supported type for conversion to JSON");
     }
     // Type is an array
     Class<?> containedType = type.getComponentType();
