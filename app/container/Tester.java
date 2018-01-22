@@ -83,7 +83,10 @@ public class Tester {
         .add("pass", r.pass)
     );
 
-    // Print as JSON to console
-    Tester.writeFile("./results.json", out.toString(WriterConfig.PRETTY_PRINT));
+    // Save to results.json
+    Tester.writeFile(
+      "./results.json",
+      Json.object().add("data", out).toString(WriterConfig.PRETTY_PRINT)
+    );
   }
 }

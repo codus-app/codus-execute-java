@@ -36,8 +36,10 @@ javaExec(problem, solution).then((results) => {
 ```
 In this case, `results` would be set to this array of test results:
 ```json
-[
-  { "value": "cat dog", "expected": "cat dog", "pass": true },
-  { "value": "wow, it works", "expected": "wow, it works", "pass": true }
-]
+{
+  "data": [
+    { "value": "cat dog", "expected": "cat dog", "pass": true },
+    { "value": "wow, it works", "expected": "wow, it works", "pass": true }
+  ]
+}
 ```
