@@ -14,12 +14,7 @@ async function preflight() {
   if (!images.filter(i => i.RepoTags.includes('codus-execute-java:latest')).length) {
     // If none is present, build the image
     // FIXME: waiting on https://github.com/apocas/dockerode/issues/432
-    await docker.buildImage({
-      context: path.join(__dirname, '..'),
-      src: ['Dockerfile'],
-    }, {
-      t: 'codus-execute-java'
-    });
+    throw new Error("Docker image not found. Please run 'npm run build' to create the image.");
   }
 }
 
