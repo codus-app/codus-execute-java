@@ -82,22 +82,30 @@ public class Tester {
 
 
   // Calls suite.run() and reports the results, including handling errors
-  public static void main(String[] args) throws IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+  public static void main(String[] args) throws IOException {
     JsonObject out = Json.object();
 
-    Tester.init();
-    TestResult[] results = Tester.suite.run();
+    try {
+      Tester.init();
+      TestResult[] results = Tester.suite.run();
 
-    // Serialize test results as Json
-    JsonArray jsonResults = Json.array();
-    for (TestResult r : results) jsonResults.add(
-      Json.object()
-        .add("value", JsonInterpret.getJsonValue(r.value, resultType))
-        .add("expected", JsonInterpret.getJsonValue(r.expected, resultType))
-        .add("pass", r.pass)
-    );
-    // Add to output
-    out.add("data", jsonResults);
+      // Serialize test results as Json
+      JsonArray jsonResults = Json.array();
+      for (TestResult r : results) jsonResults.add(
+        Json.object()
+          .add("value", JsonInterpret.getJsonValue(r.value, resultType))
+          .add("expected", JsonInterpret.getJsonValue(r.expected, resultType))
+          .add("pass", r.pass)
+      );
+      // Add to output
+      out.add("data", jsonResults);
+    } catch (IOException e) {
+      out.add("error", "Could not read input files");
+    } catch (ParseException e) {
+      out.add("error", "Could not parse JSON");
+    } catch (Exception e) {
+      out.add("error", e.getMessage());
+    }
 
     // Save to results.json
     Tester.writeFile("./results.json", out.toString(WriterConfig.PRETTY_PRINT));
