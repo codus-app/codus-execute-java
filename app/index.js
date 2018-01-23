@@ -1,5 +1,6 @@
 const path = require('path');
 const util = require('util');
+const exec = util.promisify(require('child_process').exec);
 const tar = require('tar-stream');
 const Docker = require('dockerode');
 
@@ -13,8 +14,10 @@ async function preflight() {
   // Check for the presence of an the codus-execute-java image
   if (!images.filter(i => i.RepoTags.includes('codus-execute-java:latest')).length) {
     // If none is present, build the image
-    // FIXME: waiting on https://github.com/apocas/dockerode/issues/432
-    throw new Error("Docker image not found. Please run 'npm run build' to create the image.");
+    // FIXME: do this right. waiting on https://github.com/apocas/dockerode/issues/432
+    const command = `docker build -t codus-execute-java ${path.join(__dirname, '..')}`;
+    const { stdout, stderr } = await exec(command);
+    console.log(stdout);
   }
 }
 
