@@ -17,7 +17,6 @@ async function preflight() {
     // FIXME: do this right. waiting on https://github.com/apocas/dockerode/issues/432
     const command = `docker build -t codus-execute-java ${path.join(__dirname, '..')}`;
     const { stdout, stderr } = await exec(command);
-    console.log(stdout);
   }
 }
 
