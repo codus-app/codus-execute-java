@@ -2,8 +2,11 @@ const fs = require('fs');
 const path = require('path');
 const javaExec = require('..');
 
-const problem = JSON.parse(fs.readFileSync(path.join(__dirname, '1/tests.json'), 'UTF-8'));
-const userCode = fs.readFileSync(path.join(__dirname, '1/Solution.java'), 'UTF-8');
+// Test directory we're targeting (should contain a tests.json file and a Solution.java file)
+const base = path.join(__dirname, process.argv[2] || 'pass/1');
+
+const problem = JSON.parse(fs.readFileSync(path.join(base, 'tests.json'), 'UTF-8'));
+const userCode = fs.readFileSync(path.join(base, 'Solution.java'), 'UTF-8');
 
 console.log(
 
