@@ -1,8 +1,19 @@
 const path = require('path');
 const util = require('util');
+const stream = require('stream');
 const exec = util.promisify(require('child_process').exec);
 const tar = require('tar-stream');
 const Docker = require('dockerode');
+
+
+// Stream that does nothing when written to
+const nullStream = stream.Writable();
+nullStream._write = (chunk, encoding, next) => next();
+
+// Stream that concatenates everything written to it onto a property of itself
+const concatStream = stream.Writable();
+concatStream.out = '';
+concatStream._write = (chunk, encoding, next) => { concatStream.out += chunk.toString('UTF-8'); next(); }
 
 
 // Initialize Docker
@@ -51,10 +62,18 @@ module.exports = async function main(problem, solution) {
   // Copy into the container
   await container.putArchive(files, { path: '/app'});
 
+  // Attach streams for output
+  const containerStream = await container.attach({ stream: true, stdout: true, stderr: true});
+  // Wrap concat-stream in promise
+  container.modem.demuxStream(containerStream, nullStream, concatStream); // Untangle stream, sending stdout nowhere and concatenating stderr
+
   // Start container
   await container.start();
   // Wait for execution to finish
   await container.wait();
+  // If stderr is full just return that as an error
+  const stderr = concatStream.out;
+  if (stderr) return { error: stderr };
 
   // Get the results of the tests.
   // Get tar file of out.json file
