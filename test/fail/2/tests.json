@@ -1,0 +1,15 @@
+{
+  "parameterTypes": ["String", "String"],
+  "resultType": "String",
+
+  "testCases": [
+    {
+      "parameters": ["Cat", "Dog"],
+      "result": "cat dog"
+    },
+    {
+      "parameters": ["Wow,", "it works"],
+      "result": "wow, it works"
+    }
+  ]
+}

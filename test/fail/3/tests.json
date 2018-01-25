@@ -1,0 +1,15 @@
+{
+  "parameterTypes": ["int", "int"],
+  "resultType": "int",
+
+  "testCases": [
+    {
+      "parameters": [1, 2],
+      "result": 3
+    },
+    {
+      "parameters": [3, 4],
+      "result": 7
+    }
+  ]
+}
