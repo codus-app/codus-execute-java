@@ -73,7 +73,10 @@ module.exports = async function main(problem, solution) {
   await container.wait();
   // If stderr is full just return that as an error
   const stderr = concatStream.out;
-  if (stderr) return { error: stderr };
+  if (stderr) {
+    await container.remove();
+    return { error: stderr };
+  }
 
   // Get the results of the tests.
   // Get tar file of out.json file
