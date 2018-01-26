@@ -4,6 +4,9 @@ import java.nio.file.Paths;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.io.IOException;
+import java.io.StringWriter;
+import java.io.PrintWriter;
+
 // JSON
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonObject;
@@ -104,7 +107,10 @@ public class Tester {
     } catch (ParseException e) {
       out.add("error", "Could not parse JSON");
     } catch (Exception e) {
-      out.add("error", e.getMessage());
+      // Put stack trace into a string
+      StringWriter sw = new StringWriter();
+      e.printStackTrace(new PrintWriter(sw));
+      out.add("error", sw.toString());
     }
 
     // Save to out.json
