@@ -118,6 +118,10 @@ public class Tester {
       // Reflection couldn't find method
       String solutionMethod = "main";
       out.add("error", "Could not find method '" + solutionMethod + "'");
+    } catch (InvocationTargetException e) {
+      // An error was thrown by the user's code
+      Throwable actualError = e.getCause();
+      out.add("error", Tester.exceptionToString(actualError));
     } catch (Exception e) {
       out.add("error", Tester.exceptionToString(e));
     }
