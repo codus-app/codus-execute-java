@@ -123,7 +123,8 @@ public class Tester {
       Throwable actualError = e.getCause();
       out.add("error", Tester.exceptionToString(actualError));
     } catch (Exception e) {
-      out.add("error", Tester.exceptionToString(e));
+      // Some mysterious error not handled was thrown.
+      out.add("error", "Something went wrong:\n" + Tester.exceptionToString(e));
     }
 
     // Save to out.json
