@@ -85,7 +85,7 @@ public class Tester {
 
 
   // Put stack trace into a string
-  static String exceptionToString(Exception e) {
+  static String exceptionToString(Throwable e) {
     StringWriter sw = new StringWriter();
     e.printStackTrace(new PrintWriter(sw));
     return sw.toString();
