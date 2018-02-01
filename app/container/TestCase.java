@@ -1,6 +1,7 @@
 import java.lang.reflect.Method;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.invoke.WrongMethodTypeException;
 
 
 // Contains info on a TestCase's result
@@ -48,6 +49,8 @@ class TestCase {
     // Get the run method
     Class<Solution> sclass = Solution.class;
     Method runMethod = sclass.getMethod("main", this.suite.parameterTypes);
+    // If the method return type is wrong, throw
+    if (runMethod.getReturnType() != this.suite.resultType) throw new WrongMethodTypeException();
     // Call method on new instance of Solution class being tested
     Solution instance = new Solution();
     Object result = runMethod.invoke(instance, this.parameters);
