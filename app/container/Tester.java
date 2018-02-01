@@ -121,7 +121,7 @@ public class Tester {
       out.add("error", "Method return type did not match expected return type");
     } catch (InvocationTargetException e) {
       // An error was thrown by the user's code
-      Throwable actualError = e.getCause();
+      Throwable actualError = e.getCause(); // The error inside the user's code that caused the InvocationTargetException
       out.add("error", Tester.exceptionToString(actualError));
     } catch (Exception e) {
       // Some mysterious error not handled was thrown.
