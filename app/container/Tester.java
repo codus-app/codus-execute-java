@@ -114,6 +114,10 @@ public class Tester {
       out.add("error", "Could not read input files");
     } catch (ParseException e) {
       out.add("error", "Could not parse JSON");
+    } catch (NoSuchMethodException e) {
+      // Reflection couldn't find method
+      String solutionMethod = "main";
+      out.add("error", "Could not find method '" + solutionMethod + "'");
     } catch (Exception e) {
       out.add("error", Tester.exceptionToString(e));
     }
