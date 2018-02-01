@@ -84,6 +84,14 @@ public class Tester {
   }
 
 
+  // Put stack trace into a string
+  static String exceptionToString(Exception e) {
+    StringWriter sw = new StringWriter();
+    e.printStackTrace(new PrintWriter(sw));
+    return sw.toString();
+  }
+
+
   // Calls suite.run() and reports the results, including handling errors
   public static void main(String[] args) throws IOException {
     JsonObject out = Json.object();
@@ -107,10 +115,7 @@ public class Tester {
     } catch (ParseException e) {
       out.add("error", "Could not parse JSON");
     } catch (Exception e) {
-      // Put stack trace into a string
-      StringWriter sw = new StringWriter();
-      e.printStackTrace(new PrintWriter(sw));
-      out.add("error", sw.toString());
+      out.add("error", Tester.exceptionToString(e));
     }
 
     // Save to out.json
