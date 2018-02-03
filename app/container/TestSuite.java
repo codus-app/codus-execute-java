@@ -28,7 +28,7 @@ class TestSuite {
   }
 
   // Run all test cases and return a boolean[] containing the result of each (pass/fail)
-  public TestResult[] run() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+  public TestResult[] run() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
     TestResult[] results = new TestResult[this.cases.length];
 
     for (int i = 0; i < this.cases.length; i++) {

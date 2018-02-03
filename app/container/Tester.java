@@ -31,7 +31,11 @@ public class Tester {
   public static TestSuite suite;
 
   // Constructor reads all info and initializes a TestSuite
-  public static void init() throws IOException {
+  public static void init() throws IOException, ClassNotFoundException {
+    // Load class
+    Class solutionClass = Class.forName("Solution");
+    System.out.println(solutionClass.getName());
+
     // Read + parse JSON from file
     Tester.jsonString = Tester.readFile("./tests.json");
     JsonObject fullJson = Json.parse(Tester.jsonString).asObject();
@@ -58,7 +62,7 @@ public class Tester {
       // Extract expected result as Java object
       Object expectedResult = JsonInterpret.toObject(jsonTestCase.get("result"));
       // Create the instance of the TestCase class
-      Tester.testCases[i] = new TestCase(parameters, expectedResult);
+      Tester.testCases[i] = new TestCase(parameters, expectedResult, solutionClass, "main");
     }
 
     // Initialize TestSuite

@@ -23,10 +23,14 @@ class TestCase {
   TestSuite suite;
   public Object[] parameters;
   public Object expectedResult;
+  public Class<?> solutionClass;
+  public String methodName;
 
-  public TestCase(Object[] parameters, Object expectedResult) {
+  public TestCase(Object[] parameters, Object expectedResult, Class<?> solutionClass, String methodName) {
     this.parameters = parameters;
     this.expectedResult = expectedResult;
+    this.solutionClass = solutionClass;
+    this.methodName = methodName;
   }
 
   public String toString() {
@@ -45,15 +49,15 @@ class TestCase {
   }
 
   // Perform this test and return either true or false to indicate success
-  public TestResult run() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+  public TestResult run() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
     // Get the run method
-    Class<Solution> sclass = Solution.class;
-    Method runMethod = sclass.getMethod("main", this.suite.parameterTypes);
+    Method runMethod = this.solutionClass.getMethod(this.methodName, this.suite.parameterTypes);
     // If the method return type is wrong, throw
     if (runMethod.getReturnType() != this.suite.resultType) throw new WrongMethodTypeException();
-    // Call method on new instance of Solution class being tested
-    Solution instance = new Solution();
+    // Call method on new instance of solution class being tested
+    Object instance = solutionClass.newInstance();
     Object result = runMethod.invoke(instance, this.parameters);
+
     // Compare result and expected result
     boolean pass;
     if (!result.getClass().isArray()) pass = result.equals(this.expectedResult); // Non-array equality check
