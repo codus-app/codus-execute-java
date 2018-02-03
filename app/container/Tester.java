@@ -1,20 +1,26 @@
 // File IO
+import java.nio.file.Paths;
+import java.nio.file.Files;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
+// JSON
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
-import com.eclipsesource.json.ParseException;
 import com.eclipsesource.json.WriterConfig;
-import java.io.IOException;
+
+// Exception handling
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
+// Exceptions
+import java.io.IOException;
 import java.lang.invoke.WrongMethodTypeException;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-// JSON
+import com.eclipsesource.json.ParseException;
+
+
 public class Tester {
   public static String jsonString;
 
