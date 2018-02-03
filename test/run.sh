@@ -4,9 +4,9 @@
 id=$(docker create codus-execute-java)
 
 # Copy the user's code into the container
-docker cp $(dirname $0)/1/tests.json $id:/app/tests.json
+docker cp $(dirname $0)/pass/1/tests.json $id:/app/tests.json
 # Copy the JSON representation of test cases into the container
-docker cp $(dirname $0)/1/Solution.java $id:/app/Solution.java
+docker cp $(dirname $0)/pass/1/Solution.java $id:/app/Solution.java
 
 # Run
 docker start -a $id
