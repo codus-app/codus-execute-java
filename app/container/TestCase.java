@@ -34,7 +34,7 @@ class TestCase {
   }
 
   // Checks if two Objects (which must be arrays) are equal
-  public boolean arraysEqual(Object a, Object b) {
+  public static boolean arraysEqual(Object a, Object b) {
     if (a.getClass().isArray() && b.getClass().isArray()) {
       if (Array.getLength(a) != Array.getLength(b)) return false;
       for (int i=0; i < Array.getLength(a); i++)
@@ -57,7 +57,7 @@ class TestCase {
     // Compare result and expected result
     boolean pass;
     if (!result.getClass().isArray()) pass = result.equals(this.expectedResult); // Non-array equality check
-    else pass = arraysEqual(result, this.expectedResult); // Arrays require different equality check
+    else pass = TestCase.arraysEqual(result, this.expectedResult); // Arrays require different equality check
 
     return new TestResult(result, this.expectedResult, pass);
   }
