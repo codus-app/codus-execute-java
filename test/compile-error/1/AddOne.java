@@ -1,4 +1,4 @@
-public class Solution {
+public class AddOne {
 
   // Incorrect syntax
   public inr main ;) {

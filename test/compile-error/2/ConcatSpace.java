@@ -1,4 +1,4 @@
-public class Solution {
+public class ConcatSpace {
 
   // Can't convert integer to string
   public String main(String a, String b) {
