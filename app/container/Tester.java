@@ -125,7 +125,7 @@ public class Tester {
     } catch (NoSuchMethodException e) {
       // Reflection couldn't find method
       String solutionMethod = "main";
-      out.add("error", "Could not find method '" + solutionMethod + "'");
+      out.add("error", "Could not find a method '" + solutionMethod + "' matching expected parameters");
     } catch (WrongMethodTypeException e) {
       out.add("error", "Method return type did not match expected return type");
     } catch (InvocationTargetException e) {
