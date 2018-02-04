@@ -32,19 +32,19 @@ public class Tester {
 
   // Constructor reads all info and initializes a TestSuite
   public static void init() throws IOException, ClassNotFoundException {
-    // Load class
-    Class solutionClass = Class.forName("Solution");
-
     // Read + parse JSON from file
     Tester.jsonString = Tester.readFile("./tests.json");
     JsonObject fullJson = Json.parse(Tester.jsonString).asObject();
 
+    // Load class
+    Class solutionClass = Class.forName(fullJson.get("name").asString());
+
     // Parse parameter types from JSON into an array of Classes
-    JsonArray jsonParameterTypes = fullJson.get("parameterTypes").asArray();
-    Object[] parameterTypeNames = (Object[]) JsonInterpret.toObject(jsonParameterTypes);
-    Tester.parameterTypes = new Class<?>[parameterTypeNames.length];
-    for (int i = 0; i < parameterTypes.length; i++) {
-      Tester.parameterTypes[i] = JsonInterpret.getJavaType((String) parameterTypeNames[i]);
+    JsonArray jsonParameters = fullJson.get("parameters").asArray();
+    Tester.parameterTypes = new Class<?>[jsonParameters.size()];
+    for (int i = 0; i < jsonParameters.size(); i++) {
+      JsonObject param = jsonParameters.get(i).asObject();
+      Tester.parameterTypes[i] = JsonInterpret.getJavaType(param.get("type").asString());
     }
 
     // Extract expected result type from JSON to a Class

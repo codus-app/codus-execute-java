@@ -53,14 +53,14 @@ module.exports = async function main(problem, solution) {
   // Create container
   const container = await docker.createContainer({
     Image: 'codus-execute-java',
-    Env: [ 'PROBLEM_NAME=Solution' ],
+    Env: [ `PROBLEM_NAME=${problem.name}` ],
   });
 
   // Create tar archive for copying files into container
   const files = tar.pack();
   files.add = util.promisify(files.entry);
   await files.add({ name: 'tests.json' }, JSON.stringify(problem)); // Add problem info
-  await files.add({ name: 'Solution.java' }, solution);             // Add user's code
+  await files.add({ name: `${problem.name}.java` }, solution);      // Add user's code
   files.finalize();
   // Copy into the container
   await container.putArchive(files, { path: '/app'});
