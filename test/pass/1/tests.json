@@ -1,19 +1,15 @@
 {
-  "parameterTypes": ["Integer"],
+  "name": "AddOne",
+  "category": "test/pass",
+
+  "parameters": [
+    { "name": "a", "type": "Integer" }
+  ],
   "resultType": "Integer",
 
   "testCases": [
-    {
-      "parameters": [1],
-      "result": 2
-    },
-    {
-      "parameters": [5],
-      "result": 6
-    },
-    {
-      "parameters": [3],
-      "result": 4
-    }
+    { "parameters": [1], "result": 2 },
+    { "parameters": [5], "result": 6 },
+    { "parameters": [3], "result": 4 }
   ]
 }
