@@ -34,7 +34,6 @@ public class Tester {
   public static void init() throws IOException, ClassNotFoundException {
     // Load class
     Class solutionClass = Class.forName("Solution");
-    System.out.println(solutionClass.getName());
 
     // Read + parse JSON from file
     Tester.jsonString = Tester.readFile("./tests.json");
