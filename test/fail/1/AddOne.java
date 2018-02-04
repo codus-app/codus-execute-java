@@ -1,4 +1,4 @@
-public class Solution {
+public class AddOne {
 
   public int main(int a) {
     return a - 1;
