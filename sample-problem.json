@@ -1,0 +1,15 @@
+{
+  "name": "Sum",
+  "category": "warmup",
+
+  "parameters": [
+    { "name": "a", "type": "Integer" },
+    { "name": "b", "type": "Integer" }
+  ],
+  "resultType": "Integer",
+
+  "testCases": [
+    { "parameters": [5, 3], "result": 8 },
+    { "parameters": [1, 2], "result": 3 }
+  ]
+}
