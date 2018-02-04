@@ -1,4 +1,4 @@
-public class Solution {
+public class AddOne {
 
   // Errors because tests expect integer result
   public boolean main(int a) {
