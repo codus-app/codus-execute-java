@@ -15,4 +15,4 @@ docker start -a $id
 docker cp $id:/app/out.json out.json
 
 # Remove the container
-docker rm $id
+docker rm $id > /dev/null
