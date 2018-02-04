@@ -6,7 +6,7 @@ const javaExec = require('..');
 const base = path.join(__dirname, process.argv[2] || 'pass/1');
 
 const problem = JSON.parse(fs.readFileSync(path.join(base, 'tests.json'), 'UTF-8'));
-const userCode = fs.readFileSync(path.join(base, 'Solution.java'), 'UTF-8');
+const userCode = fs.readFileSync(path.join(base, `${problem.name}.java`), 'UTF-8');
 
 console.log(
 
