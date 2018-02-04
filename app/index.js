@@ -51,7 +51,10 @@ module.exports = async function main(problem, solution) {
   await preflight();
 
   // Create container
-  const container = await docker.createContainer({ Image: 'codus-execute-java' });
+  const container = await docker.createContainer({
+    Image: 'codus-execute-java',
+    Env: [ 'PROBLEM_NAME=Solution' ],
+  });
 
   // Create tar archive for copying files into container
   const files = tar.pack();

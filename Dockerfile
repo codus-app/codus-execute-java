@@ -13,5 +13,5 @@ RUN javac -classpath '.:lib/minimal-json/minimal-json-0.9.5-sources.jar' *.java
 # Port 80 should be accessible outside of the container
 EXPOSE 80
 
-CMD javac Solution.java && \
+CMD javac $PROBLEM_NAME.java && \
     java -classpath '.:lib/minimal-json/minimal-json-0.9.5.jar' Tester
