@@ -10,12 +10,6 @@ const Docker = require('dockerode');
 const nullStream = stream.Writable();
 nullStream._write = (chunk, encoding, next) => next();
 
-// Stream that concatenates everything written to it onto a property of itself
-const concatStream = stream.Writable();
-concatStream.out = '';
-concatStream._write = (chunk, encoding, next) => { concatStream.out += chunk.toString('UTF-8'); next(); }
-
-
 // Initialize Docker
 const docker = new Docker();
 
@@ -67,6 +61,10 @@ module.exports = async function main(problem, solution) {
 
   // Attach streams for output
   const containerStream = await container.attach({ stream: true, stdout: true, stderr: true});
+  // Stream that concatenates everything written to it onto a property of itself
+  const concatStream = stream.Writable();
+  concatStream.out = '';
+  concatStream._write = (chunk, encoding, next) => { concatStream.out += chunk.toString('UTF-8'); next(); }
   // Wrap concat-stream in promise
   container.modem.demuxStream(containerStream, nullStream, concatStream); // Untangle stream, sending stdout nowhere and concatenating stderr
 
