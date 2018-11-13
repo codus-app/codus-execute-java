@@ -5,6 +5,7 @@ const exec = util.promisify(require('child_process').exec);
 const tar = require('tar-stream');
 const Docker = require('dockerode');
 
+const { cleanRuntimeError } = require('./util');
 
 // Stream that does nothing when written to
 const nullStream = stream.Writable();
@@ -98,6 +99,7 @@ module.exports = async function main(problem, solution) {
   // Remove container
   await container.remove();
 
+  if (results.error) return { ...results, error: cleanRuntimeError(results.error) };
 
   return results;
 }
