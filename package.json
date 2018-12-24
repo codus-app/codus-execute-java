@@ -8,14 +8,14 @@
   "main": "app/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/arkis/codus-execute-java.git"
+    "url": "git+https://github.com/codus-app/codus-execute-java.git"
   },
   "author": "Luke Deen Taylor",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/arkis/codus-execute-java/issues"
+    "url": "https://github.com/codus-app/codus-execute-java/issues"
   },
-  "homepage": "https://github.com/arkis/codus-execute-java#readme",
+  "homepage": "https://github.com/codus-app/codus-execute-java#readme",
   "dependencies": {
     "dockerode": "^2.5.3",
     "tar-stream": "^1.5.5"
