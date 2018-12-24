@@ -12,8 +12,8 @@ public class JsonInterpret {
     if (value.isNull()) return null;
     // Numbers could be int or double
     if (value.isNumber()) {
-      if (value.asDouble() == (int) value.asDouble()) return value.asInt();
-      else return value.asDouble();
+      try { return value.asInt(); }
+      catch(NumberFormatException e) { return value.asDouble(); }
     }
     // Can't deserialize JSON object
     if (value.isObject()) return value.asObject();
