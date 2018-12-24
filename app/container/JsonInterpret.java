@@ -4,19 +4,20 @@ import com.eclipsesource.json.JsonValue;
 import com.eclipsesource.json.JsonArray;
 
 public class JsonInterpret {
-  // Convert a JsonValue to a native Java object
+  // Convert a JsonValue to a native Java object. Type is not passed; we do our best to infer
   public static Object toObject(JsonValue value) {
-    // Basics
-    if (value.isString()) return value.asString();
-    if (value.isBoolean()) return value.asBoolean();
-    if (value.isNull()) return null;
+    // Can't deserialize JSON objects
+    if (value.isObject()) return value.asObject();
+
     // Numbers could be int or double
     if (value.isNumber()) {
       try { return value.asInt(); }
       catch(NumberFormatException e) { return value.asDouble(); }
     }
-    // Can't deserialize JSON object
-    if (value.isObject()) return value.asObject();
+    // Basics
+    if (value.isString()) return value.asString();
+    if (value.isBoolean()) return value.asBoolean();
+    if (value.isNull()) return null;
     // Arrays require recursion
     if (value.isArray()) {
       JsonArray arr = value.asArray();
@@ -26,6 +27,37 @@ public class JsonInterpret {
     }
     // This should never happen
     throw new IllegalArgumentException("JsonValue " + value.toString() + " is not convertible to a java object");
+  }
+
+  // Convert a JsonValue to a native Java object. Type is passed, so it's easier.
+  public static Object toObject(JsonValue value, Class<?> type) {
+    // If type is passed, we have an easier time
+    if (!value.isArray()) {
+      if (type == Integer.TYPE) return value.asInt();
+      if (type == Double.TYPE) return value.asDouble();
+      if (type == String.class) return value.asString();
+      if (type == Boolean.TYPE) return value.asBoolean();
+      else throw new IllegalArgumentException(type.getName() + " is not a supported type for conversion to JSON");
+    // Array type: recur with 'type'
+    } else {
+      JsonArray arr = value.asArray();
+      Object[] out = new Object[arr.size()];
+      for (int i = 0; i < arr.size(); i++) out[i] = JsonInterpret.toObject(arr.get(i), type);
+      return out;
+    }
+  }
+
+  // Convert a JsonValue that is an array with varying types to a native Java object. Types are passed in an array.
+  public static Object toObject(JsonValue value, Class<?>[] types) {
+    if (!value.isArray()) throw new IllegalArgumentException("An array of types was passed but the value to convert is not an array.");
+    else {
+      JsonArray arr = value.asArray();
+      if (arr.size() != types.length) throw new IllegalArgumentException("The 'types' array must have the same number of elements as the JSON array to convert.");
+
+      Object[] out = new Object[arr.size()];
+      for (int i = 0; i < arr.size(); i++) out[i] = JsonInterpret.toObject(arr.get(i), types[i]);
+      return out;
+    }
   }
 
   // Get a Class given the string that represents it
