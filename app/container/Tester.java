@@ -57,9 +57,9 @@ public class Tester {
       // Get JSON representation of test case
       JsonObject jsonTestCase = jsonTestCases.get(i).asObject();
       // Extract parameters as array of Java objects
-      Object[] parameters = (Object[]) JsonInterpret.toObject(jsonTestCase.get("parameters").asArray());
+      Object[] parameters = (Object[]) JsonInterpret.toObject(jsonTestCase.get("parameters").asArray(), Tester.parameterTypes);
       // Extract expected result as Java object
-      Object expectedResult = JsonInterpret.toObject(jsonTestCase.get("result"));
+      Object expectedResult = JsonInterpret.toObject(jsonTestCase.get("result"), Tester.resultType);
       // Create the instance of the TestCase class
       Tester.testCases[i] = new TestCase(parameters, expectedResult, solutionClass, "main");
     }
