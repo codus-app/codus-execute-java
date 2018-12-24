@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/arkis/codus-execute-java.git"
   },
-  "author": "Arkis",
+  "author": "Luke Deen Taylor",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/arkis/codus-execute-java/issues"
