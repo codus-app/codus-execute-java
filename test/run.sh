@@ -1,12 +1,12 @@
 #!/usr/local/bin/zsh
 
 # Make the container
-id=$(docker create --env PROBLEM_NAME='Solution' codus-execute-java)
+id=$(docker create --env PROBLEM_NAME='DoubleTest' codus-execute-java)
 
 # Copy the user's code into the container
-docker cp $(dirname $0)/pass/1/tests.json $id:/app/tests.json
+docker cp $(dirname $0)/pass/4/tests.json $id:/app/tests.json
 # Copy the JSON representation of test cases into the container
-docker cp $(dirname $0)/pass/1/Solution.java $id:/app/Solution.java
+docker cp $(dirname $0)/pass/4/DoubleTest.java $id:/app/DoubleTest.java
 
 # Run
 docker start -a $id

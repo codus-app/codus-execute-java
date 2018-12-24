@@ -1,0 +1,16 @@
+{
+  "name": "DoubleTest",
+  "category": "test/pass",
+
+  "parameters": [
+    { "name": "a", "type": "double" },
+    { "name": "c", "type": "String" }
+  ],
+  "resultType": "double",
+
+  "testCases": [
+    { "parameters": [1, "hello"], "result": 1 },
+    { "parameters": [5, "what"], "result": 5 },
+    { "parameters": [3, "three"], "result": 3 }
+  ]
+}
