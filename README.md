@@ -62,3 +62,10 @@ information is copied in as files after the container is created.
 the parent filesystem, the results have to be saved within the container and then read out by the JS
 library
 7. Destroy the container
+
+## Development
+To test, create a test case in the `test` folder, then update `test/run.sh` to point to that test
+case, and run:
+```bash
+docker build -t codus-execute-java . && ./test/run.sh && cat out.json && rm out.json
+```
