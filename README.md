@@ -1,8 +1,8 @@
 # codus-execute-java
-> [`codus-engine`](https://github.com/codus-app/codus-engine) component for securely compiling and
+> [`codus`](https://github.com/codus-app/codus/) component for securely compiling and
 testing user Java code
 
-This plugin is used by [`codus-engine`](https://github.com/codus-app/codus-engine) to facilitate the
+This plugin is used by [`codus-engine`](https://github.com/codus-app/codus/tree/master/engine), the back-end of Codus, to facilitate the
 testing of user-supplied Java code safely. It has two main components, which work together to
 maximize safety and ease of use.
 
