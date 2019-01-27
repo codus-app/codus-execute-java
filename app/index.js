@@ -7,10 +7,6 @@ const Docker = require('dockerode');
 
 const { cleanRuntimeError } = require('./util');
 
-// Stream that does nothing when written to
-const nullStream = stream.Writable();
-nullStream._write = (chunk, encoding, next) => next();
-
 // Initialize Docker
 const docker = new Docker();
 
@@ -63,18 +59,20 @@ module.exports = async function main(problem, solution) {
   // Attach streams for output
   const containerStream = await container.attach({ stream: true, stdout: true, stderr: true});
   // Stream that concatenates everything written to it onto a property of itself
-  const concatStream = stream.Writable();
-  concatStream.out = '';
-  concatStream._write = (chunk, encoding, next) => { concatStream.out += chunk.toString('UTF-8'); next(); }
+  const props = {
+    out: '',
+    _write(chunk, encoding, next) { this.out += chunk.toString('UTF-8'); next(); },
+  };
+  const stdoutStream = Object.assign(stream.Writable(), props);
+  const stderrStream = Object.assign(stream.Writable(), props);
   // Wrap concat-stream in promise
-  container.modem.demuxStream(containerStream, nullStream, concatStream); // Untangle stream, sending stdout nowhere and concatenating stderr
-
+  container.modem.demuxStream(containerStream, stdoutStream, stderrStream); // Untangle stream, sending stdout nowhere and concatenating stderr
   // Start container
   await container.start();
   // Wait for execution to finish
   await container.wait();
   // If stderr is full just return that as an error
-  const stderr = concatStream.out;
+  const stderr = stderrStream.out;
   if (stderr) {
     await container.remove();
     return { error: stderr };
