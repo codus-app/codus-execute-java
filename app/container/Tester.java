@@ -52,7 +52,7 @@ public class Tester {
 
     // Build an array of TestCases
     JsonArray jsonTestCases = fullJson.get("testCases").asArray(); // JSON representation
-    Tester.testCases = new TestCase[jsonTestCases.size()];     // Array to be filled
+    Tester.testCases = new TestCase[jsonTestCases.size()];         // Array to be filled
     for (int i = 0; i < Tester.testCases.length; i++) {
       // Get JSON representation of test case
       JsonObject jsonTestCase = jsonTestCases.get(i).asObject();

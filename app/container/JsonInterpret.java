@@ -44,8 +44,32 @@ public class JsonInterpret {
     // Array type: recur with 'type'
     } else {
       JsonArray arr = value.asArray();
-      Object[] out = new Object[arr.size()];
-      for (int i = 0; i < arr.size(); i++) out[i] = JsonInterpret.toObject(arr.get(i), type);
+      // If the component type is something like int or boolean, convert temporarily to the Object
+      // subclass form (Int/Boolean) so that the array can fit generically into an Object[] so that
+      // array operations can be performed.
+      Class<?> clazz = JsonInterpret.getObjectClass(type.getComponentType());
+      Object[] out = (Object[]) Array.newInstance(clazz, arr.size());
+      // Populate the array, converting each value to a full-fledged Java object
+      for (int i = 0; i < arr.size(); i++) out[i] = JsonInterpret.toObject(arr.get(i), type.getComponentType());
+
+      // If the array was originally an array of primitive values, convert the values back and return
+      if (type.getComponentType() == int.class) {
+        int[] out2 = new int[out.length];
+        for (int i = 0; i < out.length; i++) out2[i] = (int) out[i];
+        return out2;
+      }
+      if (type.getComponentType() == double.class) {
+        double[] out2 = new double[out.length];
+        for (int i = 0; i < out.length; i++) out2[i] = (double) out[i];
+        return out2;
+      }
+      if (type.getComponentType() == boolean.class) {
+        boolean[] out2 = new boolean[out.length];
+        for (int i = 0; i < out.length; i++) out2[i] = (boolean) out[i];
+        return out2;
+      }
+
+      // If it wasn't just return
       return out;
     }
   }
@@ -61,6 +85,14 @@ public class JsonInterpret {
       for (int i = 0; i < arr.size(); i++) out[i] = JsonInterpret.toObject(arr.get(i), types[i]);
       return out;
     }
+  }
+
+  // Get the object class from a primitive class (e.g. Integer from int)
+  public static Class<?> getObjectClass(Class<?> primitiveClass) {
+    if (primitiveClass == int.class) return Integer.class;
+    if (primitiveClass == double.class) return Double.class;
+    if (primitiveClass == boolean.class) return Boolean.class;
+    return primitiveClass;
   }
 
   // Get a Class given the string that represents it
