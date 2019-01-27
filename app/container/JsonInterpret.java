@@ -34,9 +34,12 @@ public class JsonInterpret {
     // If type is passed, we have an easier time
     if (!value.isArray()) {
       if (type == Integer.TYPE) return value.asInt();
+      if (type == Integer.class) return value.asInt();
       if (type == Double.TYPE) return value.asDouble();
+      if (type == Double.class) return value.asDouble();
       if (type == String.class) return value.asString();
       if (type == Boolean.TYPE) return value.asBoolean();
+      if (type == Boolean.class) return value.asBoolean();
       else throw new IllegalArgumentException(type.getName() + " is not a supported type for conversion to JSON");
     // Array type: recur with 'type'
     } else {
