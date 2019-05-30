@@ -82,7 +82,9 @@ module.exports = async function main(problem, solution) {
   ]);
   // If timeout was reached, cancel everything
   if (kill) {
-    container.stop().then(() => container.remove());
+    container.stop()
+      .then(() => container.remove())
+      .catch(() => container.remove());
     return { error: 'Execution timed out' };
   }
   // Return any errors
