@@ -17,7 +17,11 @@ async function preflight() {
   if (!images.filter(i => i.RepoTags.includes('codus-execute-java:latest')).length) {
     // If none is present, build the image
     // FIXME: do this right. waiting on https://github.com/apocas/dockerode/issues/432
-    const command = `docker build -t codus-execute-java ${path.join(__dirname, '..')}`;
+    const memoryAllowed = '500m';
+    const cpusAllowed = 1;
+    const resourceArgs = `--memory=${memoryAllowed} --memory-swap=${memoryAllowed} --cpu-period=100000 --cpu-quota=${cpusAllowed * 100000}`;
+    const command = `docker build -t codus-execute-java ${resourceArgs} ${path.join(__dirname, '..')}`;
+    console.log(command);
     const { stdout, stderr } = await exec(command);
   }
 }
