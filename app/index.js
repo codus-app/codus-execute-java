@@ -7,6 +7,8 @@ const Docker = require('dockerode');
 
 const { cleanRuntimeError } = require('./util');
 
+function delay(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+
 // Initialize Docker
 const docker = new Docker();
 
@@ -72,10 +74,14 @@ module.exports = async function main(problem, solution) {
   container.modem.demuxStream(containerStream, stdoutStream, stderrStream); // Untangle stream, sending stdout nowhere and concatenating stderr
   // Start container
   await container.start();
-  // Wait for execution to finish
-  await container.wait();
-  // If stderr is full just return that as an error
-  const stderr = stderrStream.out;
+  // Wait for execution to finish (max of 3 seconds)
+  let killed = false;
+  await Promise.race([
+    delay(3000).then(() => container.stop()).then(() => { killed = true; }),
+    container.wait(),
+  ]);
+  // Return any errors
+  const stderr = killed ? 'Execution timed out' : stderrStream.out;
   if (stderr) {
     await container.remove();
     return { error: stderr };
