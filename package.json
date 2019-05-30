@@ -1,6 +1,6 @@
 {
   "name": "codus-execute-java",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "codus-engine component for executing Java code",
   "scripts": {
     "build": "docker build -t codus-execute-java ."
