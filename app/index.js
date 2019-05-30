@@ -75,13 +75,18 @@ module.exports = async function main(problem, solution) {
   // Start container
   await container.start();
   // Wait for execution to finish (max of 3 seconds)
-  let killed = false;
+  let kill = false;
   await Promise.race([
-    delay(3000).then(() => container.stop()).then(() => { killed = true; }),
+    delay(3000).then(() => { kill = true; }),
     container.wait(),
   ]);
+  // If timeout was reached, cancel everything
+  if (kill) {
+    container.stop().then(() => container.remove());
+    return { error: 'Execution timed out' };
+  }
   // Return any errors
-  const stderr = killed ? 'Execution timed out' : stderrStream.out;
+  const stderr = stderrStream.out;
   if (stderr) {
     await container.remove();
     return { error: stderr };
