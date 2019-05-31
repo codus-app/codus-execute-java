@@ -20,7 +20,7 @@ async function preflight() {
     // If none is present, build the image
     // FIXME: do this right. waiting on https://github.com/apocas/dockerode/issues/432
     const memoryAllowed = '100m';
-    const cpusAllowed = .5;
+    const cpusAllowed = .1;
     const resourceArgs = `--memory=${memoryAllowed} --memory-swap=${memoryAllowed} --cpu-period=100000 --cpu-quota=${cpusAllowed * 100000}`;
     const command = `docker build -t codus-execute-java ${resourceArgs} ${path.join(__dirname, '..')}`;
     const { stdout, stderr } = await exec(command);
@@ -77,7 +77,7 @@ module.exports = async function main(problem, solution) {
   // Wait for execution to finish (max of 3 seconds)
   let kill = false;
   await Promise.race([
-    delay(3000).then(() => { kill = true; }),
+    delay(10000).then(() => { kill = true; }),
     container.wait(),
   ]);
   // If timeout was reached, cancel everything
